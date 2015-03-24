@@ -1,13 +1,22 @@
 #include "auto.h"
 
-void Engine::testParam(float Maxpred, float Przys, float Hamulce, float Ster)
+void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
 {
     float suma;
-    suma=Maxpred+Przys+Hamulce+Ster;
+    suma=statMaxpr+statPrzys+statSter;
 
     if(suma>1.0)
         Error(0);
     else;
+}
+
+void Engine::ustawPredkosc(float Maxpred, sf::Vector2f Przys)
+{
+   // Auto::predkosc.x=
+    if(Auto.predkosc.x>Maxpred)
+        Auto.predkosc.x=Maxpred;
+    if(Auto.pozycja.y>Maxpred)
+        Auto.pozycja.y>Maxpred;
 }
 
 void Engine::Error(int idbledu)
@@ -15,7 +24,7 @@ void Engine::Error(int idbledu)
     switch(idbledu){
     case 0:
         {
-            printf("Z³y stosunek parametrów pojazdu.\n");
+            printf("Zly stosunek parametrów pojazdu.\n");
             blad=true;
             break;
         }
