@@ -43,6 +43,7 @@
 			<Add library="sfml-system" />
 			<Add directory="D:/SFML-2.2/lib" />
 		</Linker>
+		<Unit filename="Vector2.hpp" />
 		<Unit filename="auto.cpp" />
 		<Unit filename="auto.h" />
 		<Unit filename="main.cpp" />
