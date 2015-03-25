@@ -20,24 +20,17 @@ void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
 
 void Engine::ustawPredkosc(float maxPred, sf::Vector2f Przys)
 {
-    if(Przys.x<=gracze[0].maxZmiana && Przys.x>0)
-        gracze[0].predkosc.x+=Przys.x;
-    else if(Przys.x>gracze[0].maxZmiana)
-        gracze[0].predkosc.x+=gracze[0].maxZmiana;
-    else
-        gracze[0].predkosc.x-=gracze[0].maxZmiana; //hamowanie dla przys=0
-
-    if(Przys.y<=gracze[0].maxZmiana && Przys.y>0)
-        gracze[0].predkosc.y+=Przys.y;
-    else if(Przys.y>gracze[0].maxZmiana)
-        gracze[0].predkosc.y+=gracze[0].maxZmiana;
-    else
-        gracze[0].predkosc.y-=gracze[0].maxZmiana; //hamowanie dla przys=0
+    gracze[0].predkosc.x+=Przys.x*gracze[0].maxZmiana;
+    gracze[0].predkosc.y+=Przys.y*gracze[0].maxZmiana;
 
     if(gracze[0].predkosc.x>maxPred)
         gracze[0].predkosc.x=maxPred;
+    else if(gracze[0].predkosc.x<=0)
+        gracze[0].predkosc.x=0;
     if(gracze[0].pozycja.y>maxPred)
         gracze[0].pozycja.y=maxPred;
+    else if(gracze[0].predkosc.y<=0)
+        gracze[0].predkosc.y=0;
 }
 
 void ustawSkret(sf::Vector2f Ster, sf::Vector2f katKol, sf::Vector2f katAuta)
