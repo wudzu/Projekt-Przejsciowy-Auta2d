@@ -360,3 +360,29 @@
 	<iostream>
 	<SFML/Graphics.hpp>
 
+1427385540 source:d:\programowanie\programy\git\projekt-przejsciowy-auta2d\auto.cpp
+	"auto.h"
+
+1427386485 d:\programowanie\programy\git\projekt-przejsciowy-auta2d\auto.h
+	<SFML/System.hpp>
+	<math.h>
+	<stdlib.h>
+	<iostream>
+	<cstdlib>
+	<vector>
+	<stdio.h>
+	"Vector2.hpp"
+
+1427385321 d:\programowanie\programy\git\projekt-przejsciowy-auta2d\vector2.hpp
+	<SFML/System/Vector2.inl>
+
+1427387582 source:d:\programowanie\programy\git\projekt-przejsciowy-auta2d\main.cpp
+	"game.h"
+
+1427387797 d:\programowanie\programy\git\projekt-przejsciowy-auta2d\game.h
+	<SFML/Graphics.hpp>
+	<string>
+
+1427387819 source:d:\programowanie\programy\git\projekt-przejsciowy-auta2d\game.cpp
+	"game.h"
+
