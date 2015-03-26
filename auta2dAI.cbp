@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="D:/SFML-2.2/include" />
 				</Compiler>
@@ -26,9 +27,12 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add directory="D:/SFML-2.2/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add directory="D:/SFML-2.2/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -46,6 +50,8 @@
 		<Unit filename="Vector2.hpp" />
 		<Unit filename="auto.cpp" />
 		<Unit filename="auto.h" />
+		<Unit filename="game.cpp" />
+		<Unit filename="game.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

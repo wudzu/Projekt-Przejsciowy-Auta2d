@@ -38,9 +38,9 @@ void ustawSkret(sf::Vector2f Ster, sf::Vector2f katKol, sf::Vector2f katAuta)
 
 }
 
-void Engine::Error(int idbledu)
+void Engine::Error(int idBledu)
 {
-    switch(idbledu){
+    switch(idBledu){
     case 0:
         {
             printf("Zly stosunek parametrów pojazdu.\n");

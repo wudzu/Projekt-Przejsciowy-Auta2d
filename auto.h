@@ -1,3 +1,7 @@
+#ifndef AUTO_H_ // zeby nie bylo bugow :)
+#define AUTO_H_
+
+
 #include <SFML/System.hpp>
 #include <math.h>
 #include <stdlib.h>
@@ -7,28 +11,30 @@
 #include <stdio.h>
 #include "Vector2.hpp"
 
+// proponuje nie uzywac polskich znakow
+
 class Auto;
 class Engine;
 
 class Engine
 {
 public:
-    Engine();
-    ~Engine();
+    Engine(){}
+    ~Engine(){}
     bool blad; //Gdy jest program przestaje dzia³aæ.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.
     void testParam(float statMaxpr, float statPrzys, float statSter); //Sprawdza czy gracz nie wyda³ za du¿o punktów i oblicz maksymalne wartosci.
     void ustawPredkosc(float maxPred, sf::Vector2f Przys); //Ustala aktualn¹ prêdkoœæ pojazdu.
     void ustawSkret(sf::Vector2f Ster, sf::Vector2f katKol, sf::Vector2f katAuta); //Porownuje pozycjê kó³ wzglêdem auta i koryguje k¹t skrêtu.
     void Nawierzchnia(); //Sprawdza po czym jedzie auto i okreœla wp³yw na jazdê.
-    void Error(int idbledu); //Informuje usera o b³êdach.
+    void Error(int idBledu); //Informuje usera o bledach.
 };
 
 class Auto
 {
 public:
-    Auto();
-    ~Auto();
+    Auto(){}
+    ~Auto(){}
     int id;
     sf::Vector2f pozycja; //Pozycja auta na trasie.
     sf::Vector2f katKol; //Skrêt kó³ ustawiany przez gracza.
@@ -47,3 +53,6 @@ public:
     float maxZmiana; // Maksymalne wartosci obliczane z rozdanych punktow.
     float maxSkret;
 };
+
+
+#endif // AUTO_H_
