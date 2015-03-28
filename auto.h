@@ -6,6 +6,7 @@
 #include <vector>
 #include <stdio.h>
 #include "Vector2.hpp"
+#define PI 3.14159265
 
 class Auto;
 class Engine;
@@ -15,13 +16,17 @@ class Engine
 public:
     Engine();
     ~Engine();
-    bool blad; //Gdy jest program przestaje dzia³aæ.
+    float klatka; //dlugosc trwania klatki
+    sf::Vector2f temp1;
+    float temp2;
+    bool blad; //Gdy jest program przestaje dziala.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.
-    void testParam(float statMaxpr, float statPrzys, float statSter); //Sprawdza czy gracz nie wyda³ za du¿o punktów i oblicz maksymalne wartosci.
-    void ustawPredkosc(float maxPred, sf::Vector2f Przys); //Ustala aktualn¹ prêdkoœæ pojazdu.
-    void ustawSkret(sf::Vector2f Ster, sf::Vector2f katKol, sf::Vector2f katAuta); //Porownuje pozycjê kó³ wzglêdem auta i koryguje k¹t skrêtu.
-    void Nawierzchnia(); //Sprawdza po czym jedzie auto i okreœla wp³yw na jazdê.
-    void Error(int idbledu); //Informuje usera o b³êdach.
+    void testParam(float statMaxpr, float statPrzys, float statSter); //Sprawdza czy gracz nie wydal za du¿o punktów i oblicz maksymalne wartosci.
+    void ustawTrajektorie(float statMaxpr, float statSter, float statPrzys, sf::Vector2f zmiana); //Ustala aktualna predkosc pojazdu.
+    void Nawierzchnia(); //Sprawdza po czym jedzie auto i okresla wplyw na jazde.
+    void Error(int idbledu); //Informuje usera o bledach.
+    void Init(); //Funkcja inicjalizujaca wartosci poczatkowe.
+    float sprawdzTarcie();
 };
 
 class Auto
@@ -30,20 +35,19 @@ public:
     Auto();
     ~Auto();
     int id;
-    sf::Vector2f pozycja; //Pozycja auta na trasie.
-    sf::Vector2f katKol; //Skrêt kó³ ustawiany przez gracza.
-    sf::Vector2f predkosc; //Aktualna prêdkoœæ.
+    sf::Vector2f zmiana; //Modyfikowana predkosc i skret. x-predkosc y-skret
+    sf::Vector2f tempPozycja; //Pozycja auta na trasie.
+    sf::Vector2f tempKat;
+    sf::Vector2f tempPredkosc;
+    sf::Vector2f tempPrzyspieszenie;
+    sf::Vector2f stanWyjscia[3];
+    float statMaxpr, statPrzys, statSter; //Zmienne wplywajace na wlasciwosci pojazdu.
+
+    //zmienne JESZCZE nie uzyte
     float kopiaMaxpred; //Zmienne ustalane przez gracza.
     sf::Vector2f kopiaPrzys;
-    //sf::Vector2f kopiaHamulce;
     sf::Vector2f kopiaSter;
-    float statMaxpr, statPrzys, statSter; //Zmienne wplywajace na wlasciwosci pojazdu.
-    //float statHam;
-    float maxPred; //Maksymalna prêdkoœæ pojazdu.
     sf::Vector2f Przys; //Przyspieszenie auta.
-    //sf::Vector2f Hamulce; //Moc hamulców.
-    sf::Vector2f Ster; //Sterownoœæ.
-    sf::Vector2f katAuta; //Pozycja samochodu wzglêdem kó³.
-    float maxZmiana; // Maksymalne wartosci obliczane z rozdanych punktow.
-    float maxSkret;
+    sf::Vector2f Ster; //Sterownosc.
+    sf::Vector2f katAuta; //Pozycja samochodu wzgledem kol.
 };

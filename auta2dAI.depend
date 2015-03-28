@@ -360,3 +360,19 @@
 	<iostream>
 	<SFML/Graphics.hpp>
 
+1427537041 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.cpp
+	"auto.h"
+
+1427537053 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.h
+	<SFML/System.hpp>
+	<math.h>
+	<stdlib.h>
+	<iostream>
+	<cstdlib>
+	<vector>
+	<stdio.h>
+	"Vector2.hpp"
+
+1417738159 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\vector2.hpp
+	<SFML/System/Vector2.inl>
+
