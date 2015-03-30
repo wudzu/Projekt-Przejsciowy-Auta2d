@@ -1,16 +1,30 @@
 #include "auto.h"
 
-Engine::Engine()
+Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")
 {
-    Auto a;
+    samochod.loadFromFile("auto.png");
+    mapaT.loadFromFile("mapa.png");
+    mapa.setTexture(mapaT);
+
+    Auto a(&samochod);
     gracze.push_back(a);
     gracze[0].przyspieszenie.x=0;
     gracze[0].przyspieszenie.y=0;
     klatka=0.5;
-    gracze[0].orientacja.x=0;
-    gracze[0].orientacja.y=1;
+    gracze[0].orientacja.x=1;
+    gracze[0].orientacja.y=0;
     gracze[0].V.x=0;
     gracze[0].V.y=0;
+    gracze[0].pozycja.x=100;
+    gracze[0].pozycja.y=50;
+    gracze[0].obrazek.setColor(sf::Color::Red);
+
+
+}
+
+Engine::~Engine()
+{
+
 }
 
 void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
@@ -27,6 +41,32 @@ void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
         gracze[0].statMaxpr=10+statMaxpr; //Generalnie predkosc nie przekracza 15
     }
 
+}
+
+void Engine::rysujScene()
+{
+    okno.clear();
+    okno.draw(mapa);
+    for (int i=0;i<gracze.size();++i)
+    {
+        gracze[i].obrazek.setPosition(gracze[i].pozycja);
+        okno.draw(gracze[i].obrazek);
+    }
+    okno.display();
+}
+
+void Engine::petlaGlowna()
+{
+    while(okno.isOpen())
+    {
+        sf::Event event;
+        while (okno.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                okno.close();
+        }
+        rysujScene();
+    }
 }
 
 void Engine::ustawTrajektorie(int nrAuta)
@@ -92,6 +132,13 @@ void Engine::nawierzchnia()
 Auto::Auto()
 {
 
+}
+
+Auto::Auto(sf::Texture* tekstura) : obrazek(*tekstura, sf::IntRect(42,25,155,75))
+{
+    //obrazek.setTexture(*tekstura);
+    //obrazek.setTextureRect(sf::IntRect(42,25,155,75));
+    obrazek.setOrigin(sf::Vector2f(57,25));
 }
 
 Auto::~Auto()

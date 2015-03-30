@@ -1,4 +1,6 @@
 #include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
@@ -8,6 +10,7 @@
 #include "Vector2.hpp"
 #define PI 3.14159265
 
+
 class Auto;
 class Engine;
 
@@ -16,7 +19,7 @@ class Engine
 public:
     Engine();
     ~Engine();
-
+    void petlaGlowna();
 private:
     float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
@@ -27,9 +30,15 @@ private:
     void ustawTrajektorie(int nrAuta); //Ustala aktualna predkosc pojazdu.
     void nawierzchnia(); //Sprawdza po czym jedzie auto i okresla wplyw na jazde.
     void Error(int idbledu); //Informuje usera o bledach.
+    void rysujScene();
     //void Init(); //Funkcja inicjalizujaca wartosci poczatkowe.
     float sprawdzTarcie(int nrAuta);
     std::vector <int> tarcie;
+
+    sf::RenderWindow okno;
+    sf::Texture samochod;
+    sf::Texture mapaT;
+    sf::Sprite mapa;
 };
 
 class Auto
@@ -37,6 +46,7 @@ class Auto
     friend class Engine;
 public:
     Auto();
+    Auto(sf::Texture* tekstura);
     ~Auto();
     int id;
     //sf::Vector2f tempPozycja; //Pozycja auta na trasie.
@@ -59,4 +69,5 @@ public:
     sf::Vector2f orientacja; //Pozycja samochodu wzgledem kol.
     sf::Vector2f pozycja;
     sf::Vector2f kopiaPozycja;
+    sf::Sprite obrazek;
 };
