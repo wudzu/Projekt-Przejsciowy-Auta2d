@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include "Vector2.hpp"
 #define PI 3.14159265
+#include <windows.h>
+
 
 
 class Auto;
@@ -21,6 +23,9 @@ public:
     ~Engine();
     void petlaGlowna();
 private:
+    HINSTANCE DLL;
+    typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
+    POBRANE ZewnTrajektoria;
     float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
     float temp2;
@@ -55,8 +60,6 @@ public:
     //sf::Vector2f tempPrzyspieszenie;
     //sf::Vector2f stanWyjscia[3];
     float statMaxpr, statPrzys, statSter; //Zmienne wplywajace na wlasciwosci pojazdu.
-
-    private:
     //zmienne JESZCZE nie uzyte
     //float kopiaMaxpred; //Zmienne ustalane przez gracza.
     sf::Vector2f kopiaPrzyspieszenie;

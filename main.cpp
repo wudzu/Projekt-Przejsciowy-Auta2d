@@ -22,7 +22,10 @@ int main()
         window.display();
     }
 */
+
     Engine engine;
     engine.petlaGlowna();
+
     return 0;
 }
+

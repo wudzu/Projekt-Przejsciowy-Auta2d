@@ -19,7 +19,6 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")
     gracze[0].pozycja.y=50;
     gracze[0].obrazek.setColor(sf::Color::Red);
 
-
 }
 
 Engine::~Engine()
@@ -57,6 +56,9 @@ void Engine::rysujScene()
 
 void Engine::petlaGlowna()
 {
+    DLL= LoadLibrary("DLL.dll");
+    ZewnTrajektoria=(POBRANE) GetProcAddress(DLL, "Trajektoria");
+
     while(okno.isOpen())
     {
         sf::Event event;
@@ -66,7 +68,9 @@ void Engine::petlaGlowna()
                 okno.close();
         }
         rysujScene();
+        ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
     }
+    FreeLibrary(DLL);
 }
 
 void Engine::ustawTrajektorie(int nrAuta)
