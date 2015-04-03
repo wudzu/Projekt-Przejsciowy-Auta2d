@@ -26,6 +26,7 @@ public:
 private:
     HINSTANCE DLL;
     typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
+    void tworzMape();
     POBRANE ZewnTrajektoria;
     //float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
@@ -33,6 +34,7 @@ private:
     sf::Clock zegar;
     sf::Time czas;
     sf::Time klatka;
+    std::vector<std::vector<std::vector<unsigned char>>> mapaRGB;
     bool blad; //Gdy jest program przestaje dziala.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.
     void testParam(float statMaxpr, float statPrzys, float statSter); //Sprawdza czy gracz nie wydal za du¿o punktów i oblicz maksymalne wartosci.

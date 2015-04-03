@@ -47,6 +47,30 @@ void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
 
 }
 
+void Engine::tworzMape()
+{
+    sf::Image ob;
+    ob.loadFromFile("mapa.png");
+    sf::Vector2u a=ob.getSize();
+    mapaRGB.clear();
+    mapaRGB.resize(a.x);
+    for (unsigned int i=0;i<a.x;++i)
+    {
+        mapaRGB[i].resize(a.y);
+    }
+    sf::Color kolor;
+    for (unsigned int i=0;i<a.x;++i)
+    {
+        for (unsigned int j=0;j<a.y;++j)
+        {
+            kolor=ob.getPixel(i,j);
+            mapaRGB[i][j][0]=kolor.r;
+            mapaRGB[i][j][1]=kolor.g;
+            mapaRGB[i][j][2]=kolor.b;
+        }
+    }
+}
+
 void Engine::rysujScene()
 {
     okno.clear();
@@ -183,6 +207,7 @@ void Engine::Error(int idbledu)
 
 void Engine::nawierzchnia()
 {
+
     //ustawia odpowiednie wartosci na wektorze z tarciem
 }
 
