@@ -10,7 +10,7 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     Auto a(&samochod);
     tarcie.push_back(0.5f);
     gracze.push_back(a);
-    gracze[0].statSter=0.9f;
+    gracze[0].statSter=2.9f;
     gracze[0].przyspieszenie.x=0;
     gracze[0].przyspieszenie.y=0;
     gracze[0].orientacja.x=1;
@@ -77,20 +77,21 @@ void Engine::petlaGlowna()
         break;
     }
     std::vector<std::thread> watki;
+    bool dziala=1;
     switch (gracze.size())
     {
     case 4:
-        //watki.push_back(sterowanie3, &(gracze[3].kopiaV.x),&(gracze[3].kopiaV.y),&(gracze[3].kopiaPrzyspieszenie.x),&(gracze[3].kopiaPrzyspieszenie.y),&(gracze[3].kopiaOrientacja.x),&(gracze[3].kopiaOrientacja.y),&(gracze[3].kopiaSterowanie.x),&(gracze[3].kopiaSterowanie.y));
+        //watki.push_back(sterowanie3, (gracze[3].kopiaV.x),(gracze[3].kopiaV.y),(gracze[3].kopiaPrzyspieszenie.x),(gracze[3].kopiaPrzyspieszenie.y),(gracze[3].kopiaOrientacja.x),(gracze[3].kopiaOrientacja.y),(gracze[3].kopiaSterowanie.x),(gracze[3].kopiaSterowanie.y),dziala);
     case 3:
-        //watki.push_back(sterowanie2, &(gracze[2].kopiaV.x),&(gracze[2].kopiaV.y),&(gracze[2].kopiaPrzyspieszenie.x),&(gracze[2].kopiaPrzyspieszenie.y),&(gracze[2].kopiaOrientacja.x),&(gracze[2].kopiaOrientacja.y),&(gracze[2].kopiaSterowanie.x),&(gracze[2].kopiaSterowanie.y));
+        //watki.push_back(sterowanie2, (gracze[2].kopiaV.x),(gracze[2].kopiaV.y),(gracze[2].kopiaPrzyspieszenie.x),(gracze[2].kopiaPrzyspieszenie.y),(gracze[2].kopiaOrientacja.x),(gracze[2].kopiaOrientacja.y),(gracze[2].kopiaSterowanie.x),(gracze[2].kopiaSterowanie.y),dziala);
     case 2:
-        //watki.push_back(sterowanie1, &(gracze[1].kopiaV.x),&(gracze[1].kopiaV.y),&(gracze[1].kopiaPrzyspieszenie.x),&(gracze[1].kopiaPrzyspieszenie.y),&(gracze[1].kopiaOrientacja.x),&(gracze[1].kopiaOrientacja.y),&(gracze[1].kopiaSterowanie.x),&(gracze[1].kopiaSterowanie.y));
+        //watki.push_back(sterowanie1, (gracze[1].kopiaV.x),(gracze[1].kopiaV.y),(gracze[1].kopiaPrzyspieszenie.x),(gracze[1].kopiaPrzyspieszenie.y),(gracze[1].kopiaOrientacja.x),(gracze[1].kopiaOrientacja.y),(gracze[1].kopiaSterowanie.x),(gracze[1].kopiaSterowanie.y),dziala);
     case 1:
-        //watki.push_back(sterowanie0, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y));
+        //watki.push_back(sterowanie0, (gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala);
         break;
     }
 
-    while(okno.isOpen())
+    while(dziala)
     {
         czas+=zegar.restart();
         while (czas>=klatka)
@@ -108,7 +109,7 @@ void Engine::petlaGlowna()
         }
         rysujScene();
         //ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
-
+        dziala=okno.isOpen();
     }
     //tu musi byc case z zwalnianiem wszystkich bibliotek
     //FreeLibrary(DLL);
