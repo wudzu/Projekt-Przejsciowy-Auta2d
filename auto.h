@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <thread>
 #include <stdio.h>
 #include "Vector2.hpp"
 #define PI 3.14159265
@@ -26,9 +27,12 @@ private:
     HINSTANCE DLL;
     typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
     POBRANE ZewnTrajektoria;
-    float klatka; //dlugosc trwania klatki
+    //float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
     float temp2;
+    sf::Clock zegar;
+    sf::Time czas;
+    sf::Time klatka;
     bool blad; //Gdy jest program przestaje dziala.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.
     void testParam(float statMaxpr, float statPrzys, float statSter); //Sprawdza czy gracz nie wydal za du¿o punktów i oblicz maksymalne wartosci.
@@ -38,7 +42,7 @@ private:
     void rysujScene();
     //void Init(); //Funkcja inicjalizujaca wartosci poczatkowe.
     float sprawdzTarcie(int nrAuta);
-    std::vector <int> tarcie;
+    std::vector <float> tarcie;
 
     sf::RenderWindow okno;
     sf::Texture samochod;
