@@ -23,6 +23,7 @@ public:
     Engine();
     ~Engine();
     void petlaGlowna();
+    float qrsqrt(float num);//szybkie odwrotny pierwiastek
 private:
     HINSTANCE DLL;
     typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
@@ -34,6 +35,8 @@ private:
     sf::Clock zegar;
     sf::Time czas;
     sf::Time klatka;
+    float qx2;
+    int* qi;     // zmienne do szybkiego pierwiastka odwrotnego
     std::vector<std::vector<std::vector<unsigned char>>> mapaRGB;
     bool blad; //Gdy jest program przestaje dziala.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.

@@ -64,6 +64,7 @@ void Engine::tworzMape()
         for (unsigned int j=0;j<a.y;++j)
         {
             kolor=ob.getPixel(i,j);
+            mapaRGB[i][j].resize(3);
             mapaRGB[i][j][0]=kolor.r;
             mapaRGB[i][j][1]=kolor.g;
             mapaRGB[i][j][2]=kolor.b;
@@ -86,6 +87,7 @@ void Engine::rysujScene()
 
 void Engine::petlaGlowna()
 {
+    tworzMape();
     switch (gracze.size())
     {
     case 4:
@@ -121,6 +123,7 @@ void Engine::petlaGlowna()
         while (czas>=klatka)
         {
             czas-=klatka;
+            nawierzchnia();
             for (int i=0;i<gracze.size();++i)
                 ustawTrajektorie(i);
         }
@@ -164,9 +167,9 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
     gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
 
-    temp2=sqrt(gracze[nrAuta].orientacja.x*gracze[nrAuta].orientacja.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].orientacja.y);
+    temp2=qrsqrt(gracze[nrAuta].orientacja.x*gracze[nrAuta].orientacja.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].orientacja.y);
 
-    gracze[nrAuta].orientacja=gracze[nrAuta].orientacja/temp2;
+    gracze[nrAuta].orientacja=gracze[nrAuta].orientacja*temp2;
 
     gracze[nrAuta].przyspieszenie=gracze[nrAuta].przyspieszenie+gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja;
     gracze[nrAuta].przyspieszenie=gracze[nrAuta].przyspieszenie*sprawdzTarcie(nrAuta);
@@ -207,8 +210,36 @@ void Engine::Error(int idbledu)
 
 void Engine::nawierzchnia()
 {
+    sf::Vector2f prostopadly;
+    sf::Vector2f pozycjaPom;
+    unsigned int pom0,pom1;
+    for (int i=0;i<gracze.size();++i)
+    {
+        prostopadly.x=-gracze[i].orientacja.y;
+        prostopadly.y=gracze[i].orientacja.x;
 
+
+        pozycjaPom=gracze[i].pozycja+gracze[i].orientacja*48.0f+prostopadly*20.0f;
+        pom0=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        pozycjaPom-=prostopadly*40.0f;
+        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        pozycjaPom-=gracze[i].orientacja*96.0f;
+        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        pozycjaPom+=prostopadly*40.0f;
+        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        pom0/=4;
+        tarcie[i]=pom0/255.0f;
+    }
     //ustawia odpowiednie wartosci na wektorze z tarciem
+}
+
+float Engine::qrsqrt(float num) // liczy 1/pierwiastek(num)
+{
+    qx2= num*0.5f;
+    qi=(int*)&num;
+    *qi=0x5f3759df - ( *qi >> 1 );  //magic
+    num=num*(1.5f - (qx2 * num * num));
+    return num;
 }
 
 Auto::Auto()
