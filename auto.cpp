@@ -4,9 +4,15 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
     klatka=sf::seconds(0.05f);
     samochod.loadFromFile("auto.png");
+    samochod.setSmooth(1);
     mapaT.loadFromFile("mapa.png");
     mapa.setTexture(mapaT);
-    zegar.restart();
+    sf::View view;
+    view.setSize(800,600);
+    view.setCenter(800,600);
+    view.zoom(2.0f);
+    okno.setView(view);
+    tworzMape();
     Auto a(&samochod);
     tarcie.push_back(0.5f);
     gracze.push_back(a);
@@ -20,10 +26,12 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].pozycja.x=100;
     gracze[0].pozycja.y=50;
     gracze[0].obrazek.setColor(sf::Color::Red);
-    gracze[0].sterowanie.y=1.0f;
+    //gracze[0].sterowanie.y=1.0f;
     gracze[0].sterowanie.x=1;
-    gracze[0].kopiaSterowanie.y=1;
+    //gracze[0].kopiaSterowanie.y=1;
     gracze[0].kopiaSterowanie.x=1;
+
+    zegar.restart();
 }
 
 Engine::~Engine()
@@ -87,7 +95,7 @@ void Engine::rysujScene()
 
 void Engine::petlaGlowna()
 {
-    tworzMape();
+
     switch (gracze.size())
     {
     case 4:
@@ -162,7 +170,7 @@ void Engine::ustawTrajektorie(int nrAuta)
     temp1=gracze[nrAuta].orientacja*(gracze[nrAuta].orientacja.x*gracze[nrAuta].V.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].V.y);
     temp1=gracze[nrAuta].V-temp1;
 
-    gracze[nrAuta].przyspieszenie=temp1*(-3.0f)*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
+    gracze[nrAuta].przyspieszenie=temp1*(-4.0f)*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
 
     gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
     gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
@@ -171,8 +179,8 @@ void Engine::ustawTrajektorie(int nrAuta)
 
     gracze[nrAuta].orientacja=gracze[nrAuta].orientacja*temp2;
 
-    gracze[nrAuta].przyspieszenie=gracze[nrAuta].przyspieszenie+gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja;
-    gracze[nrAuta].przyspieszenie=gracze[nrAuta].przyspieszenie*sprawdzTarcie(nrAuta);
+    gracze[nrAuta].przyspieszenie+=gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja;
+    gracze[nrAuta].przyspieszenie*=sprawdzTarcie(nrAuta);
 
 
     gracze[nrAuta].kopiaV=gracze[nrAuta].V;
@@ -180,10 +188,10 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].kopiaOrientacja=gracze[nrAuta].orientacja;
     gracze[nrAuta].kopiaPozycja=gracze[nrAuta].pozycja;
     gracze[nrAuta].sterowanie=gracze[nrAuta].kopiaSterowanie;
-
+    system("cls");
     printf("\n\n\n");
-    printf("%f\t%f\t%f\t%f\n",gracze[nrAuta].V.x,gracze[nrAuta].V.y,gracze[nrAuta].orientacja.x,gracze[nrAuta].orientacja.y);
-    printf("%f\t%f\t",gracze[nrAuta].pozycja.x,gracze[nrAuta].pozycja.y);
+    printf("V:\t%f\t%f\nOrientacja:\t%f\t%f\n",gracze[nrAuta].V.x,gracze[nrAuta].V.y,gracze[nrAuta].orientacja.x,gracze[nrAuta].orientacja.y);
+    printf("Pozycja:\t%f\t%f\nPrzyspieszenie:\t%f\t%f\n",gracze[nrAuta].pozycja.x,gracze[nrAuta].pozycja.y,gracze[nrAuta].przyspieszenie.x,gracze[nrAuta].przyspieszenie.y);
     //printf("%f\t%f",)
     //gracze[0].stanWyjscia[0]=gracze[0].tempPozycja;
     //gracze[0].stanWyjscia[1]=gracze[0].orientacja;
