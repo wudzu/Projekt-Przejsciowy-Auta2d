@@ -2,7 +2,7 @@
 
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
-    klatka=sf::seconds(0.05f);
+    klatka=sf::seconds(0.14f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
     mapaT.loadFromFile("mapa.png");
@@ -28,8 +28,8 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].obrazek.setColor(sf::Color::Red);
     //gracze[0].sterowanie.y=1.0f;
     gracze[0].sterowanie.x=1;
-    //gracze[0].kopiaSterowanie.y=1;
-    gracze[0].kopiaSterowanie.x=1;
+    gracze[0].kopiaSterowanie.y=0.1f;
+    gracze[0].kopiaSterowanie.x=1.0f;
 
     zegar.restart();
 }
@@ -127,7 +127,7 @@ void Engine::petlaGlowna()
 
     while(dziala)
     {
-        czas+=zegar.restart();
+        czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
         {
             czas-=klatka;
@@ -165,15 +165,15 @@ void Engine::ustawTrajektorie(int nrAuta)
     else if(gracze[0].tempPredkosc.y<-statMaxpr)
         gracze[0].tempPredkosc.y=-statMaxpr;
 */
-    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*5.0f;
+    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*10.0f;
 
     temp1=gracze[nrAuta].orientacja*(gracze[nrAuta].orientacja.x*gracze[nrAuta].V.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].V.y);
     temp1=gracze[nrAuta].V-temp1;
 
-    gracze[nrAuta].przyspieszenie=temp1*(-4.0f)*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
+    gracze[nrAuta].przyspieszenie=temp1*(-2.0f)*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
 
-    gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
-    gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/10*klatka.asSeconds()*gracze[nrAuta].statSter);
+    gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter);
+    gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter);
 
     temp2=qrsqrt(gracze[nrAuta].orientacja.x*gracze[nrAuta].orientacja.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].orientacja.y);
 
@@ -228,14 +228,42 @@ void Engine::nawierzchnia()
 
 
         pozycjaPom=gracze[i].pozycja+gracze[i].orientacja*48.0f+prostopadly*20.0f;
-        pom0=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            pom0=255;
+        }
+        else
+        {
+            pom0=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        }
         pozycjaPom-=prostopadly*40.0f;
-        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            pom0+=255;
+        }
+        else
+        {
+            pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        }
         pozycjaPom-=gracze[i].orientacja*96.0f;
-        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            pom0+=255;
+        }
+        else
+        {
+            pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        }
         pozycjaPom+=prostopadly*40.0f;
-        pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
-        pom0/=4;
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            pom0+=255;
+        }
+        else
+        {
+            pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
+        }
+        pom0/=2;
         tarcie[i]=pom0/255.0f;
     }
     //ustawia odpowiednie wartosci na wektorze z tarciem
