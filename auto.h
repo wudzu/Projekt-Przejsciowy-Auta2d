@@ -26,9 +26,12 @@ public:
     float qrsqrt(float num);//szybkie odwrotny pierwiastek
 private:
     HINSTANCE DLL;
-    typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
+    //typedef sf::Vector2f( * POBRANE )( sf::Vector2f, sf::Vector2f, sf::Vector2f);
+    typedef void (*POBRANE2) (sf::Vector2f, float, float);
+    POBRANE2 prosto;
+    POBRANE2 krzywo;
     void tworzMape();
-    POBRANE ZewnTrajektoria;
+    //POBRANE ZewnTrajektoria;
     //float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
     float temp2;

@@ -19,7 +19,7 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].statSter=2.9f;
     gracze[0].przyspieszenie.x=0;
     gracze[0].przyspieszenie.y=0;
-    gracze[0].orientacja.x=1;
+    gracze[0].orientacja.x=0;
     gracze[0].orientacja.y=0;
     gracze[0].V.x=0;
     gracze[0].V.y=0;
@@ -28,8 +28,8 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].obrazek.setColor(sf::Color::Red);
     //gracze[0].sterowanie.y=1.0f;
     gracze[0].sterowanie.x=1;
-    gracze[0].kopiaSterowanie.y=0.1f;
-    gracze[0].kopiaSterowanie.x=1.0f;
+    gracze[0].kopiaSterowanie.y=0.0f;
+    gracze[0].kopiaSterowanie.x=0.0f;
 
     zegar.restart();
 }
@@ -106,8 +106,9 @@ void Engine::petlaGlowna()
     case 2:
 
     case 1:
-        //DLL= LoadLibrary("DLL.dll");
-        //ZewnTrajektoria=(POBRANE) GetProcAddress(DLL, "Trajektoria");
+        DLL= LoadLibrary("DLL.dll");
+        prosto=(POBRANE2) GetProcAddress(DLL, "test");
+        krzywo=(POBRANE2) GetProcAddress(DLL, "test2");
         break;
     }
     std::vector<std::thread> watki;
@@ -127,6 +128,10 @@ void Engine::petlaGlowna()
 
     while(dziala)
     {
+
+    prosto(gracze[0].kopiaSterowanie,gracze[0].kopiaV.x,gracze[0].kopiaV.y);
+    krzywo(gracze[0].kopiaSterowanie,gracze[0].kopiaV.x,gracze[0].kopiaV.y);
+
         czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
         {
@@ -147,7 +152,7 @@ void Engine::petlaGlowna()
         dziala=okno.isOpen();
     }
     //tu musi byc case z zwalnianiem wszystkich bibliotek
-    //FreeLibrary(DLL);
+    FreeLibrary(DLL);
 }
 
 void Engine::ustawTrajektorie(int nrAuta)
