@@ -9,10 +9,13 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     mapa.setTexture(mapaT);
     sf::View view;
     view.setSize(800,600);
-    view.setCenter(800,600);
-    view.zoom(2.0f);
-    okno.setView(view);
+
+
     tworzMape();
+    float prop=mapaRGB.size()/800.0f;
+    view.setCenter(prop*400,prop*300);
+    view.zoom(prop);
+    okno.setView(view);
     Auto a(&samochod);
     tarcie.push_back(0.5f);
     gracze.push_back(a);
