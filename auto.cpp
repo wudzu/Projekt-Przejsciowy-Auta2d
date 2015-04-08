@@ -23,13 +23,13 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].orientacja.y=0;
     gracze[0].V.x=0;
     gracze[0].V.y=0;
-    gracze[0].pozycja.x=100;
+    gracze[0].pozycja.x=300;
     gracze[0].pozycja.y=50;
     gracze[0].obrazek.setColor(sf::Color::Red);
     //gracze[0].sterowanie.y=1.0f;
     gracze[0].sterowanie.x=1;
-    gracze[0].kopiaSterowanie.y=0.1f;
-    gracze[0].kopiaSterowanie.x=1.0f;
+    gracze[0].kopiaSterowanie.y=0.0f;
+    gracze[0].kopiaSterowanie.x=0.0f;
 
     zegar.restart();
 }
@@ -106,8 +106,8 @@ void Engine::petlaGlowna()
     case 2:
 
     case 1:
-        //DLL= LoadLibrary("DLL.dll");
-        //ZewnTrajektoria=(POBRANE) GetProcAddress(DLL, "Trajektoria");
+        DLL= LoadLibrary("DLL.dll");
+        test2=(POBRANE) GetProcAddress(DLL, "test2");
         break;
     }
     std::vector<std::thread> watki;
@@ -125,8 +125,12 @@ void Engine::petlaGlowna()
         break;
     }
 
+
+
     while(dziala)
     {
+        test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
+
         czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
         {
@@ -165,7 +169,7 @@ void Engine::ustawTrajektorie(int nrAuta)
     else if(gracze[0].tempPredkosc.y<-statMaxpr)
         gracze[0].tempPredkosc.y=-statMaxpr;
 */
-    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*10.0f;
+    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*20.0f;
 
     temp1=gracze[nrAuta].orientacja*(gracze[nrAuta].orientacja.x*gracze[nrAuta].V.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].V.y);
     temp1=gracze[nrAuta].V-temp1;
