@@ -184,6 +184,7 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].orientacja=gracze[nrAuta].orientacja*temp2;
 
     gracze[nrAuta].przyspieszenie+=gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja;
+    gracze[nrAuta].przyspieszenie+=sprawdzWysokosc(nrAuta)*0.01f;
     gracze[nrAuta].przyspieszenie*=sprawdzTarcie(nrAuta);
 
 
@@ -280,6 +281,101 @@ float Engine::qrsqrt(float num) // liczy 1/pierwiastek(num)
     *qi=0x5f3759df - ( *qi >> 1 );  //magic
     num=num*(1.5f - (qx2 * num * num));
     return num;
+}
+
+sf::Vector2f Engine::sprawdzWysokosc(int nrAuta)
+{
+    sf::Vector2f prostopadly;
+    sf::Vector2f pozycjaPom;
+
+    float wys[4];
+
+    prostopadly.x=-gracze[nrAuta].orientacja.y;
+    prostopadly.y=gracze[nrAuta].orientacja.x;
+
+
+    pozycjaPom=gracze[nrAuta].pozycja+gracze[nrAuta].orientacja*48.0f+prostopadly*20.0f;
+
+    if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            wys[0]=255.0f;
+            if (pozycjaPom.x<0)
+                wys[0]-= pozycjaPom.x;
+            if (pozycjaPom.x> mapaRGB.size())
+                wys[0]+= pozycjaPom.x - mapaRGB.size();
+            if (pozycjaPom.y<0)
+                wys[0]-= pozycjaPom.y;
+            if (pozycjaPom.y> mapaRGB[0].size())
+                wys[0]+= pozycjaPom.y - mapaRGB[0].size();
+
+        }
+    else
+        {
+            wys[0]=mapaRGB[pozycjaPom.x][pozycjaPom.y][1];
+        }
+
+        pozycjaPom-=prostopadly*40.0f;
+
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            wys[1]=255.0f;
+            if (pozycjaPom.x<0)
+                wys[1]-= pozycjaPom.x;
+            if (pozycjaPom.x> mapaRGB.size())
+                wys[1]+= pozycjaPom.x - mapaRGB.size();
+            if (pozycjaPom.y<0)
+                wys[1]-= pozycjaPom.y;
+            if (pozycjaPom.y> mapaRGB[0].size())
+                wys[1]+= pozycjaPom.y - mapaRGB[0].size();
+
+        }
+    else
+        {
+            wys[1]=mapaRGB[pozycjaPom.x][pozycjaPom.y][1];
+        }
+
+        pozycjaPom-=gracze[nrAuta].orientacja*96.0f;
+
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            wys[2]=255.0f;
+            if (pozycjaPom.x<0)
+                wys[2]-= pozycjaPom.x;
+            if (pozycjaPom.x> mapaRGB.size())
+                wys[2]+= pozycjaPom.x - mapaRGB.size();
+            if (pozycjaPom.y<0)
+                wys[2]-= pozycjaPom.y;
+            if (pozycjaPom.y> mapaRGB[0].size())
+                wys[2]+= pozycjaPom.y - mapaRGB[0].size();
+
+        }
+    else
+        {
+            wys[2]=mapaRGB[pozycjaPom.x][pozycjaPom.y][1];
+        }
+
+        pozycjaPom+=prostopadly*40.0f;
+
+        if (pozycjaPom.x<0 || pozycjaPom.x> mapaRGB.size() || pozycjaPom.y<0 || pozycjaPom.y> mapaRGB[0].size())
+        {
+            wys[3]=255.0f;
+            if (pozycjaPom.x<0)
+                wys[3]-= pozycjaPom.x;
+            if (pozycjaPom.x> mapaRGB.size())
+                wys[3]+= pozycjaPom.x - mapaRGB.size();
+            if (pozycjaPom.y<0)
+                wys[3]-= pozycjaPom.y;
+            if (pozycjaPom.y> mapaRGB[0].size())
+                wys[3]+= pozycjaPom.y - mapaRGB[0].size();
+
+        }
+    else
+        {
+            wys[3]=mapaRGB[pozycjaPom.x][pozycjaPom.y][1];
+        }
+
+
+        return gracze[nrAuta].orientacja*(wys[3]+wys[2]-wys[1]-wys[0])+prostopadly*(wys[1]+wys[2]-wys[0]-wys[3]);
 }
 
 Auto::Auto()

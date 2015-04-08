@@ -47,6 +47,7 @@ private:
     void rysujScene();
     //void Init(); //Funkcja inicjalizujaca wartosci poczatkowe.
     float sprawdzTarcie(int nrAuta);
+    sf::Vector2f sprawdzWysokosc(int nrAuta);
     std::vector <float> tarcie;
 
     sf::RenderWindow okno;
