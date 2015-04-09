@@ -2,6 +2,7 @@
 
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
+    idebug=0;
     klatka=sf::seconds(0.14f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
@@ -9,14 +10,50 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     mapa.setTexture(mapaT);
     sf::View view;
     view.setSize(800,600);
-
-
+    int iloscGraczy;
+    FILE* input;
+    input=fopen("stale.txt","rt");
+    fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy);
+    fclose(input);
+    wspolTarcieBoczne=-wspolTarcieBoczne;
+    if (iloscGraczy>4)
+        iloscGraczy=4;
+    if (iloscGraczy<1)
+        iloscGraczy=1;
+/*
+    wspolTarcia=2;
+    wspolWysokosci=0.01f;
+    wspolTarcieBoczne=-2.0f;
+    wspolPredkosci=20.0f;
+    wspolSterownosci=0.2f;
+*/
     tworzMape();
     float prop=mapaRGB.size()/800.0f;
     view.setCenter(prop*400,prop*300);
     view.zoom(prop);
     okno.setView(view);
-    Auto a(&samochod);
+
+    sf::Vector2f start,startOrientacja;
+    startOrientacja.x=1;
+    znajdzStart(start,startOrientacja);
+
+
+    sf::Color kolor[4]={sf::Color::White,sf::Color::Red,sf::Color::Blue,sf::Color::Green};
+
+    gracze.clear();
+    tarcie.resize(4);
+
+    Auto a(&samochod,start,startOrientacja);
+
+    for (int i=0;i<iloscGraczy;++i)
+    {
+        a.obrazek.setColor(kolor[i]);
+        gracze.push_back(a);
+    }
+
+
+
+    /*
     tarcie.push_back(0.5f);
     gracze.push_back(a);
     gracze[0].statSter=2.9f;
@@ -28,11 +65,13 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     gracze[0].V.y=0;
     gracze[0].pozycja.x=300;
     gracze[0].pozycja.y=50;
+    gracze[0].statPrzys=1.0f;
     gracze[0].obrazek.setColor(sf::Color::Red);
     //gracze[0].sterowanie.y=1.0f;
     gracze[0].sterowanie.x=1;
     gracze[0].kopiaSterowanie.y=0.0f;
     gracze[0].kopiaSterowanie.x=0.0f;
+    */
 
     zegar.restart();
 }
@@ -40,6 +79,73 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 Engine::~Engine()
 {
 
+}
+
+void Engine::znajdzMete()
+{
+    bool szukam=1;
+    for (int i=0;i<mapaRGB.size() && szukam;++i)
+    {
+        for (int j=0;j<mapaRGB[0].size();++j)
+        {
+            if (mapaRGB[i][j][2]==253)
+            {
+                meta.x=i;meta.y=j;
+                szukam=0;
+                break;
+            }
+
+        }
+    }
+}
+
+int Engine::sprawdzWygrana()
+{
+    sf::Vector2f pom0;
+    float r;
+    for (int i=0;i<gracze.size();++i)
+    {
+        pom0=gracze[i].pozycja-meta;
+        r=pom0.x*pom0.x+pom0.y*pom0.y;
+        if (r < 4)
+            return i;
+    }
+    return -1;
+}
+
+void Engine::debuguj()
+{
+    printf("%d\n",idebug++);
+}
+
+void Engine::znajdzStart(sf::Vector2f &start, sf::Vector2f &startOrientacja)
+{
+    bool startZnaleziony=0,orientZnaleziony=0;
+
+    for (int i=0;i<mapaRGB.size() && !startZnaleziony;++i)
+    {
+        for (int j=0;j<mapaRGB[0].size();++j)
+        {
+            if (mapaRGB[i][j][2] == 255)
+            {
+                startZnaleziony=1;
+                start.x=i;start.y=j;
+                for (int i1=-1;i1<=1;++i1)
+                {
+                    for (int j1=-1;j1<=1 && !orientZnaleziony+1;++j)
+                    {
+                        if (mapaRGB[i1+i][j1+j][2] == 254)
+                        {
+                            orientZnaleziony=1;
+                            startOrientacja.x=i1;startOrientacja.y=j1;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
 }
 
 void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
@@ -109,7 +215,7 @@ void Engine::petlaGlowna()
     case 2:
 
     case 1:
-        DLL= LoadLibrary("DLL.dll");
+        DLL= LoadLibrary("1/DLL.dll");
         test2=(POBRANE) GetProcAddress(DLL, "test2");
         break;
     }
@@ -129,7 +235,7 @@ void Engine::petlaGlowna()
     }
 
 
-
+    int wygrana;
     while(dziala)
     {
         test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
@@ -150,6 +256,9 @@ void Engine::petlaGlowna()
                 okno.close();
         }
         rysujScene();
+        wygrana=sprawdzWygrana();
+        if (wygrana != -1)
+            ;
         //ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
         dziala=okno.isOpen();
     }
@@ -172,22 +281,22 @@ void Engine::ustawTrajektorie(int nrAuta)
     else if(gracze[0].tempPredkosc.y<-statMaxpr)
         gracze[0].tempPredkosc.y=-statMaxpr;
 */
-    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*20.0f;
+    gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*wspolPredkosci;
 
     temp1=gracze[nrAuta].orientacja*(gracze[nrAuta].orientacja.x*gracze[nrAuta].V.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].V.y);
     temp1=gracze[nrAuta].V-temp1;
 
-    gracze[nrAuta].przyspieszenie=temp1*(-2.0f)*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
+    gracze[nrAuta].przyspieszenie=temp1*wspolTarcieBoczne*sprawdzTarcie(nrAuta)-gracze[nrAuta].V*sprawdzTarcie(nrAuta);
 
-    gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter);
-    gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI/5*klatka.asSeconds()*gracze[nrAuta].statSter);
+    gracze[nrAuta].orientacja.x=gracze[nrAuta].orientacja.x*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI*wspolSterownosci*klatka.asSeconds()*gracze[nrAuta].statSter)-gracze[nrAuta].orientacja.y*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI*wspolSterownosci*klatka.asSeconds()*gracze[nrAuta].statSter);
+    gracze[nrAuta].orientacja.y=gracze[nrAuta].orientacja.y*cos(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI*wspolSterownosci*klatka.asSeconds()*gracze[nrAuta].statSter)+gracze[nrAuta].orientacja.x*sin(gracze[nrAuta].sterowanie.y*klatka.asSeconds()*PI*wspolSterownosci*klatka.asSeconds()*gracze[nrAuta].statSter);
 
     temp2=qrsqrt(gracze[nrAuta].orientacja.x*gracze[nrAuta].orientacja.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].orientacja.y);
 
     gracze[nrAuta].orientacja=gracze[nrAuta].orientacja*temp2;
 
-    gracze[nrAuta].przyspieszenie+=gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja;
-    gracze[nrAuta].przyspieszenie+=sprawdzWysokosc(nrAuta)*0.01f;
+    gracze[nrAuta].przyspieszenie+=gracze[nrAuta].sterowanie.x*gracze[nrAuta].orientacja*gracze[nrAuta].statPrzys;
+    gracze[nrAuta].przyspieszenie+=sprawdzWysokosc(nrAuta)*wspolWysokosci;
     gracze[nrAuta].przyspieszenie*=sprawdzTarcie(nrAuta);
 
 
@@ -271,8 +380,8 @@ void Engine::nawierzchnia()
         {
             pom0+=mapaRGB[pozycjaPom.x][pozycjaPom.y][0];
         }
-        pom0/=2;
-        tarcie[i]=pom0/255.0f;
+        pom0/=4;
+        tarcie[i]=pom0/255.0f*wspolTarcia;
     }
     //ustawia odpowiednie wartosci na wektorze z tarciem
 }
@@ -386,11 +495,15 @@ Auto::Auto()
 
 }
 
-Auto::Auto(sf::Texture* tekstura) : obrazek(*tekstura, sf::IntRect(42,25,155,75))
+Auto::Auto(sf::Texture* tekstura, sf::Vector2f pol, sf::Vector2f orient) : obrazek(*tekstura, sf::IntRect(42,25,155,75))
 {
     //obrazek.setTexture(*tekstura);
     //obrazek.setTextureRect(sf::IntRect(42,25,155,75));
     obrazek.setOrigin(sf::Vector2f(57,25));
+    pozycja=pol;
+    orientacja=orient;
+    statSter=2.0f;
+    statPrzys=1.0f;
 }
 
 Auto::~Auto()

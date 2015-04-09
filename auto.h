@@ -29,6 +29,11 @@ private:
     typedef void( * POBRANE )(float&, float&);
     void tworzMape();
     POBRANE test2;
+    sf::Vector2f meta;
+    void znajdzMete();
+    int sprawdzWygrana();
+    int idebug;
+    void debuguj();
     //float klatka; //dlugosc trwania klatki
     sf::Vector2f temp1;
     float temp2;
@@ -37,6 +42,11 @@ private:
     sf::Time klatka;
     float qx2;
     int* qi;     // zmienne do szybkiego pierwiastka odwrotnego
+    float wspolTarcia;
+    float wspolWysokosci;
+    float wspolTarcieBoczne;
+    float wspolPredkosci;
+    float wspolSterownosci;
     std::vector<std::vector<std::vector<unsigned char>>> mapaRGB;
     bool blad; //Gdy jest program przestaje dziala.
     std::vector <Auto> gracze; //Wektor zawieraj¹cy wszystkich graczy.
@@ -49,7 +59,7 @@ private:
     float sprawdzTarcie(int nrAuta);
     sf::Vector2f sprawdzWysokosc(int nrAuta);
     std::vector <float> tarcie;
-
+    void znajdzStart(sf::Vector2f &start, sf::Vector2f &startOrientacja);
     sf::RenderWindow okno;
     sf::Texture samochod;
     sf::Texture mapaT;
@@ -61,7 +71,7 @@ class Auto
     friend class Engine;
 public:
     Auto();
-    Auto(sf::Texture* tekstura);
+    Auto(sf::Texture* tekstura, sf::Vector2f pol, sf::Vector2f orient);
     ~Auto();
     int id;
     //sf::Vector2f tempPozycja; //Pozycja auta na trasie.
