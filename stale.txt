@@ -1,6 +1,6 @@
 Tarcie: 2.0
 Wysokosc: 0.01
-Tarcie boczne: 2.0
+Tarcie boczne: 1.5
 Predkosc: 20.0
 Sterownosc: 0.2
-Gracze: 1
+Gracze: 2

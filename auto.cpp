@@ -3,7 +3,7 @@
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
     idebug=0;
-    klatka=sf::seconds(0.13f);
+    klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
     mapaT.loadFromFile("mapa.png");
@@ -326,10 +326,13 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].kopiaOrientacja=gracze[nrAuta].orientacja;
     gracze[nrAuta].kopiaPozycja=gracze[nrAuta].pozycja;
     gracze[nrAuta].sterowanie=gracze[nrAuta].kopiaSterowanie;
+    /*
     system("cls");
     printf("\n\n\n");
     printf("V:\t%f\t%f\nOrientacja:\t%f\t%f\n",gracze[nrAuta].V.x,gracze[nrAuta].V.y,gracze[nrAuta].orientacja.x,gracze[nrAuta].orientacja.y);
     printf("Pozycja:\t%f\t%f\nPrzyspieszenie:\t%f\t%f\n",gracze[nrAuta].pozycja.x,gracze[nrAuta].pozycja.y,gracze[nrAuta].przyspieszenie.x,gracze[nrAuta].przyspieszenie.y);
+
+    */
     //printf("%f\t%f",)
     //gracze[0].stanWyjscia[0]=gracze[0].tempPozycja;
     //gracze[0].stanWyjscia[1]=gracze[0].orientacja;
