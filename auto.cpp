@@ -3,7 +3,7 @@
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
     idebug=0;
-    klatka=sf::seconds(0.14f);
+    klatka=sf::seconds(0.13f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
     mapaT.loadFromFile("mapa.png");
@@ -227,14 +227,13 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        watki.push_back(std::thread(**ster3, (gracze[3].kopiaV.x),(gracze[3].kopiaV.y),(gracze[3].kopiaPrzyspieszenie.x),(gracze[3].kopiaPrzyspieszenie.y),(gracze[3].kopiaOrientacja.x),(gracze[3].kopiaOrientacja.y),(gracze[3].kopiaSterowanie.x),(gracze[3].kopiaSterowanie.y),dziala,mapaRGB));
+        watki.push_back(std::thread(ster3, &(gracze[3].kopiaV.x),&(gracze[3].kopiaV.y),&(gracze[3].kopiaPrzyspieszenie.x),&(gracze[3].kopiaPrzyspieszenie.y),&(gracze[3].kopiaOrientacja.x),&(gracze[3].kopiaOrientacja.y),&(gracze[3].kopiaPozycja.x),&(gracze[3].kopiaPozycja.y),&(gracze[3].kopiaSterowanie.x),&(gracze[3].kopiaSterowanie.y),&dziala,mapaRGB));
     case 3:
-        watki.push_back(std::thread(**ster2, (gracze[2].kopiaV.x),(gracze[2].kopiaV.y),(gracze[2].kopiaPrzyspieszenie.x),(gracze[2].kopiaPrzyspieszenie.y),(gracze[2].kopiaOrientacja.x),(gracze[2].kopiaOrientacja.y),(gracze[2].kopiaSterowanie.x),(gracze[2].kopiaSterowanie.y),dziala,mapaRGB));
+        watki.push_back(std::thread(ster2, &(gracze[2].kopiaV.x),&(gracze[2].kopiaV.y),&(gracze[2].kopiaPrzyspieszenie.x),&(gracze[2].kopiaPrzyspieszenie.y),&(gracze[2].kopiaOrientacja.x),&(gracze[2].kopiaOrientacja.y),&(gracze[2].kopiaPozycja.x),&(gracze[2].kopiaPozycja.y),&(gracze[2].kopiaSterowanie.x),&(gracze[2].kopiaSterowanie.y),&dziala,mapaRGB));
     case 2:
-        watki.push_back(std::thread(**ster1, (gracze[1].kopiaV.x),(gracze[1].kopiaV.y),(gracze[1].kopiaPrzyspieszenie.x),(gracze[1].kopiaPrzyspieszenie.y),(gracze[1].kopiaOrientacja.x),(gracze[1].kopiaOrientacja.y),(gracze[1].kopiaSterowanie.x),(gracze[1].kopiaSterowanie.y),dziala,mapaRGB));
+        watki.push_back(std::thread(ster1, &(gracze[1].kopiaV.x),&(gracze[1].kopiaV.y),&(gracze[1].kopiaPrzyspieszenie.x),&(gracze[1].kopiaPrzyspieszenie.y),&(gracze[1].kopiaOrientacja.x),&(gracze[1].kopiaOrientacja.y),&(gracze[1].kopiaPozycja.x),&(gracze[1].kopiaPozycja.y),&(gracze[1].kopiaSterowanie.x),&(gracze[1].kopiaSterowanie.y),&dziala,mapaRGB));
     case 1:
-        watki.push_back(std::thread(**ster0, (gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala,mapaRGB));
-        break;
+        watki.push_back(std::thread(ster0, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaPozycja.x),&(gracze[0].kopiaPozycja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y),&dziala,mapaRGB));
     }
 
 
@@ -242,7 +241,7 @@ void Engine::petlaGlowna()
     while(dziala)
     {
         //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
-
+       // ster0((gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaPozycja.x),(gracze[0].kopiaPozycja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala,mapaRGB);
         czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
         {
@@ -250,6 +249,8 @@ void Engine::petlaGlowna()
             nawierzchnia();
             for (int i=0;i<gracze.size();++i)
                 ustawTrajektorie(i);
+            //wygrana=sprawdzWygrana();
+            //if (wygrana != -1)
         }
 
         sf::Event event;
@@ -259,22 +260,28 @@ void Engine::petlaGlowna()
                 okno.close();
         }
         rysujScene();
-        wygrana=sprawdzWygrana();
-        if (wygrana != -1)
-            ;
+
+            //;
         //ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
         dziala=okno.isOpen();
     }
+
+
+
     //tu musi byc case z zwalnianiem wszystkich bibliotek
     switch (gracze.size())
     {
     case 4:
+        watki[3].join();
         FreeLibrary(DLL3);
     case 3:
+        watki[2].join();
         FreeLibrary(DLL2);
     case 2:
+        watki[1].join();
         FreeLibrary(DLL1);
     case 1:
+        watki[0].join();
         FreeLibrary(DLL0);
     }
 
