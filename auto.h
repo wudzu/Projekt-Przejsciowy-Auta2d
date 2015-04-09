@@ -25,10 +25,10 @@ public:
     void petlaGlowna();
     float qrsqrt(float num);//szybkie odwrotny pierwiastek
 private:
-    HINSTANCE DLL;
-    typedef void( * POBRANE )(float&, float&);
+    HINSTANCE DLL0,DLL1,DLL2,DLL3;
+    typedef void( * POBRANE )(float &, float &, float &, float &, float &, float &, float &, float &, float &, float &, bool &, std::vector<std::vector<std::vector<unsigned char>>> );
     void tworzMape();
-    POBRANE test2;
+    POBRANE ster0,ster1,ster2,ster3;
     sf::Vector2f meta;
     void znajdzMete();
     int sprawdzWygrana();

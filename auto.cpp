@@ -208,15 +208,18 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        //wczytaj 4. dll i zrob czwartą funkcje
+        DLL3= LoadLibrary("4/DLL.dll");
+        ster3=(POBRANE) GetProcAddress(DLL3, "sterowanie1");
 
     case 3:
-        // to samo dla 3.
+        DLL2= LoadLibrary("3/DLL.dll");
+        ster2=(POBRANE) GetProcAddress(DLL2, "sterowanie1");
     case 2:
-
+        DLL1= LoadLibrary("2/DLL.dll");
+        ster1=(POBRANE) GetProcAddress(DLL1, "sterowanie1");
     case 1:
-        DLL= LoadLibrary("1/DLL.dll");
-        test2=(POBRANE) GetProcAddress(DLL, "test2");
+        DLL0= LoadLibrary("1/DLL.dll");
+        ster0=(POBRANE) GetProcAddress(DLL0, "sterowanie1");
         break;
     }
     std::vector<std::thread> watki;
@@ -224,13 +227,13 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        //watki.push_back(sterowanie3, (gracze[3].kopiaV.x),(gracze[3].kopiaV.y),(gracze[3].kopiaPrzyspieszenie.x),(gracze[3].kopiaPrzyspieszenie.y),(gracze[3].kopiaOrientacja.x),(gracze[3].kopiaOrientacja.y),(gracze[3].kopiaSterowanie.x),(gracze[3].kopiaSterowanie.y),dziala);
+        watki.push_back(std::thread(**ster3, (gracze[3].kopiaV.x),(gracze[3].kopiaV.y),(gracze[3].kopiaPrzyspieszenie.x),(gracze[3].kopiaPrzyspieszenie.y),(gracze[3].kopiaOrientacja.x),(gracze[3].kopiaOrientacja.y),(gracze[3].kopiaSterowanie.x),(gracze[3].kopiaSterowanie.y),dziala,mapaRGB));
     case 3:
-        //watki.push_back(sterowanie2, (gracze[2].kopiaV.x),(gracze[2].kopiaV.y),(gracze[2].kopiaPrzyspieszenie.x),(gracze[2].kopiaPrzyspieszenie.y),(gracze[2].kopiaOrientacja.x),(gracze[2].kopiaOrientacja.y),(gracze[2].kopiaSterowanie.x),(gracze[2].kopiaSterowanie.y),dziala);
+        watki.push_back(std::thread(**ster2, (gracze[2].kopiaV.x),(gracze[2].kopiaV.y),(gracze[2].kopiaPrzyspieszenie.x),(gracze[2].kopiaPrzyspieszenie.y),(gracze[2].kopiaOrientacja.x),(gracze[2].kopiaOrientacja.y),(gracze[2].kopiaSterowanie.x),(gracze[2].kopiaSterowanie.y),dziala,mapaRGB));
     case 2:
-        //watki.push_back(sterowanie1, (gracze[1].kopiaV.x),(gracze[1].kopiaV.y),(gracze[1].kopiaPrzyspieszenie.x),(gracze[1].kopiaPrzyspieszenie.y),(gracze[1].kopiaOrientacja.x),(gracze[1].kopiaOrientacja.y),(gracze[1].kopiaSterowanie.x),(gracze[1].kopiaSterowanie.y),dziala);
+        watki.push_back(std::thread(**ster1, (gracze[1].kopiaV.x),(gracze[1].kopiaV.y),(gracze[1].kopiaPrzyspieszenie.x),(gracze[1].kopiaPrzyspieszenie.y),(gracze[1].kopiaOrientacja.x),(gracze[1].kopiaOrientacja.y),(gracze[1].kopiaSterowanie.x),(gracze[1].kopiaSterowanie.y),dziala,mapaRGB));
     case 1:
-        //watki.push_back(sterowanie0, (gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala);
+        watki.push_back(std::thread(**ster0, (gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala,mapaRGB));
         break;
     }
 
@@ -238,7 +241,7 @@ void Engine::petlaGlowna()
     int wygrana;
     while(dziala)
     {
-        test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
+        //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
 
         czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
@@ -263,7 +266,18 @@ void Engine::petlaGlowna()
         dziala=okno.isOpen();
     }
     //tu musi byc case z zwalnianiem wszystkich bibliotek
-    //FreeLibrary(DLL);
+    switch (gracze.size())
+    {
+    case 4:
+        FreeLibrary(DLL3);
+    case 3:
+        FreeLibrary(DLL2);
+    case 2:
+        FreeLibrary(DLL1);
+    case 1:
+        FreeLibrary(DLL0);
+    }
+
 }
 
 void Engine::ustawTrajektorie(int nrAuta)
