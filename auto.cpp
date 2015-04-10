@@ -33,10 +33,12 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     view.zoom(prop);
     okno.setView(view);
 
+
+
     sf::Vector2f start,startOrientacja;
     startOrientacja.x=1;
     znajdzStart(start,startOrientacja);
-
+    znajdzMete();
 
     sf::Color kolor[4]={sf::Color::White,sf::Color::Red,sf::Color::Blue,sf::Color::Green};
 
@@ -132,7 +134,7 @@ void Engine::znajdzStart(sf::Vector2f &start, sf::Vector2f &startOrientacja)
                 start.x=i;start.y=j;
                 for (int i1=-1;i1<=1;++i1)
                 {
-                    for (int j1=-1;j1<=1 && !orientZnaleziony+1;++j)
+                    for (int j1=-1;j1<=1 && !orientZnaleziony+1;++j1)
                     {
                         if (mapaRGB[i1+i][j1+j][2] == 254)
                         {
@@ -326,13 +328,13 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].kopiaOrientacja=gracze[nrAuta].orientacja;
     gracze[nrAuta].kopiaPozycja=gracze[nrAuta].pozycja;
     gracze[nrAuta].sterowanie=gracze[nrAuta].kopiaSterowanie;
-    /*
+/*
     system("cls");
     printf("\n\n\n");
     printf("V:\t%f\t%f\nOrientacja:\t%f\t%f\n",gracze[nrAuta].V.x,gracze[nrAuta].V.y,gracze[nrAuta].orientacja.x,gracze[nrAuta].orientacja.y);
     printf("Pozycja:\t%f\t%f\nPrzyspieszenie:\t%f\t%f\n",gracze[nrAuta].pozycja.x,gracze[nrAuta].pozycja.y,gracze[nrAuta].przyspieszenie.x,gracze[nrAuta].przyspieszenie.y);
+*/
 
-    */
     //printf("%f\t%f",)
     //gracze[0].stanWyjscia[0]=gracze[0].tempPozycja;
     //gracze[0].stanWyjscia[1]=gracze[0].orientacja;
