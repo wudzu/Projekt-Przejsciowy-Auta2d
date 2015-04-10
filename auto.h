@@ -26,7 +26,7 @@ public:
     float qrsqrt(float num);//szybkie odwrotny pierwiastek
 private:
     HINSTANCE DLL0,DLL1,DLL2,DLL3;
-    typedef void( * POBRANE )(float*, float*, float*, float*, float*, float*, float*, float*, float*, float*, bool*, std::vector<std::vector<std::vector<unsigned char>>> );
+    typedef void( * POBRANE )(float*, float*, float*, float*, float*, float*, float*, float*, float*, float*, bool*, std::vector<std::vector<std::vector<unsigned char>>>,float*, float*);
     void tworzMape();
     POBRANE ster0,ster1,ster2,ster3;
     sf::Vector2f meta;
