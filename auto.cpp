@@ -228,13 +228,13 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        watki.push_back(std::thread(sterowanie, &(gracze[3].kopiaV.x),&(gracze[3].kopiaV.y),&(gracze[3].kopiaPrzyspieszenie.x),&(gracze[3].kopiaPrzyspieszenie.y),&(gracze[3].kopiaOrientacja.x),&(gracze[3].kopiaOrientacja.y),&(gracze[3].kopiaPozycja.x),&(gracze[3].kopiaPozycja.y),&(gracze[3].kopiaSterowanie.x),&(gracze[3].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
+        watki.push_back(std::thread(sterowanie, &(gracze[3].kopiaV.x),&(gracze[3].kopiaV.y),&(gracze[3].kopiaPrzyspieszenie.x),&(gracze[3].kopiaPrzyspieszenie.y),&(gracze[3].kopiaOrientacja.x),&(gracze[3].kopiaOrientacja.y),&(gracze[3].kopiaPozycja.x),&(gracze[3].kopiaPozycja.y),&(gracze[3].kopiaSterowanie.x),&(gracze[3].kopiaSterowanie.y),&dziala,mapaRGB, &(meta.x),&(meta.y)));
     case 3:
-        watki.push_back(std::thread(sterowanie, &(gracze[2].kopiaV.x),&(gracze[2].kopiaV.y),&(gracze[2].kopiaPrzyspieszenie.x),&(gracze[2].kopiaPrzyspieszenie.y),&(gracze[2].kopiaOrientacja.x),&(gracze[2].kopiaOrientacja.y),&(gracze[2].kopiaPozycja.x),&(gracze[2].kopiaPozycja.y),&(gracze[2].kopiaSterowanie.x),&(gracze[2].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
+        watki.push_back(std::thread(sterowanie, &(gracze[2].kopiaV.x),&(gracze[2].kopiaV.y),&(gracze[2].kopiaPrzyspieszenie.x),&(gracze[2].kopiaPrzyspieszenie.y),&(gracze[2].kopiaOrientacja.x),&(gracze[2].kopiaOrientacja.y),&(gracze[2].kopiaPozycja.x),&(gracze[2].kopiaPozycja.y),&(gracze[2].kopiaSterowanie.x),&(gracze[2].kopiaSterowanie.y),&dziala,mapaRGB, &(meta.x),&(meta.y)));
     case 2:
-        watki.push_back(std::thread(sterowanie, &(gracze[1].kopiaV.x),&(gracze[1].kopiaV.y),&(gracze[1].kopiaPrzyspieszenie.x),&(gracze[1].kopiaPrzyspieszenie.y),&(gracze[1].kopiaOrientacja.x),&(gracze[1].kopiaOrientacja.y),&(gracze[1].kopiaPozycja.x),&(gracze[1].kopiaPozycja.y),&(gracze[1].kopiaSterowanie.x),&(gracze[1].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
+        watki.push_back(std::thread(sterowanie, &(gracze[1].kopiaV.x),&(gracze[1].kopiaV.y),&(gracze[1].kopiaPrzyspieszenie.x),&(gracze[1].kopiaPrzyspieszenie.y),&(gracze[1].kopiaOrientacja.x),&(gracze[1].kopiaOrientacja.y),&(gracze[1].kopiaPozycja.x),&(gracze[1].kopiaPozycja.y),&(gracze[1].kopiaSterowanie.x),&(gracze[1].kopiaSterowanie.y),&dziala,mapaRGB, &(meta.x),&(meta.y)));
     case 1:
-        watki.push_back(std::thread(sterowanie, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaPozycja.x),&(gracze[0].kopiaPozycja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
+        watki.push_back(std::thread(sterowanie, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaPozycja.x),&(gracze[0].kopiaPozycja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y),&dziala,mapaRGB, &(meta.x),&(meta.y)));
     }
 
 

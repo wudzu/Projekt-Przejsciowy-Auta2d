@@ -359,10 +359,10 @@
 1428006124 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\main.cpp
 	"auto.h"
 
-1428750082 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.cpp
+1428664140 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.cpp
 	"auto.h"
 
-1428750088 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.h
+1428750009 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.h
 	<SFML/System.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
