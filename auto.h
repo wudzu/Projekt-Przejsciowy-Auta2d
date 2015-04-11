@@ -28,7 +28,7 @@ private:
     HINSTANCE DLL0,DLL1,DLL2,DLL3;
     typedef void( * POBRANE )(float*, float*, float*, float*, float*, float*, float*, float*, float*, float*, bool*, std::vector<std::vector<std::vector<unsigned char>>>,float, float);
     void tworzMape();
-    POBRANE sterowanie;
+    POBRANE sterowanie0,sterowanie1,sterowanie2,sterowanie3;
     sf::Vector2f meta;
     void znajdzMete();
     int sprawdzWygrana();
