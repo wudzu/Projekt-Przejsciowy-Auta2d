@@ -211,16 +211,16 @@ void Engine::petlaGlowna()
     {
     case 4:
         DLL3= LoadLibrary("4/DLL.dll");
-        sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie3");
+        sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie");
     case 3:
         DLL2= LoadLibrary("3/DLL.dll");
-        sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie2");
+        sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie");
     case 2:
         DLL1= LoadLibrary("2/DLL.dll");
-        sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie1");
+        sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie");
     case 1:
         DLL0= LoadLibrary("1/DLL.dll");
-        sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie0");
+        sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie");
         break;
     }
     std::vector<std::thread> watki;
@@ -252,7 +252,10 @@ void Engine::petlaGlowna()
                 ustawTrajektorie(i);
             wygrana=sprawdzWygrana();
             if (wygrana != -1)
+            {
                 printf("Wygral: %d!!!\n",wygrana);
+                okno.close();
+            }
         }
 
         sf::Event event;
@@ -266,9 +269,8 @@ void Engine::petlaGlowna()
             //;
         //ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
         dziala=okno.isOpen();
+       // return;
     }
-
-
 
     //tu musi byc case z zwalnianiem wszystkich bibliotek
     switch (gracze.size())
@@ -286,7 +288,6 @@ void Engine::petlaGlowna()
         watki[0].join();
         FreeLibrary(DLL0);
     }
-
 }
 
 void Engine::ustawTrajektorie(int nrAuta)
