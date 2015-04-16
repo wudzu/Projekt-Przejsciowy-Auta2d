@@ -3,7 +3,7 @@
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
     idebug=0;
-    klatka=sf::seconds(0.2f);
+    //klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
     mapaT.loadFromFile("mapa.png");
@@ -12,10 +12,12 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     view.setSize(800,600);
     int iloscGraczy;
     FILE* input;
+    float pomKlatka;
     input=fopen("stale.txt","rt");
-    fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy);
+    fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d\nKlatka: %f",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy,&pomKlatka);
     fclose(input);
     wspolTarcieBoczne=-wspolTarcieBoczne;
+    klatka=sf::seconds(pomKlatka);
     if (iloscGraczy>4)
         iloscGraczy=4;
     if (iloscGraczy<1)
@@ -201,6 +203,10 @@ void Engine::rysujScene()
         gracze[i].obrazek.setRotation(atan2(gracze[i].orientacja.y,gracze[i].orientacja.x)*180/ PI);
         okno.draw(gracze[i].obrazek);
     }
+    for (int i=0;i<tekst.size();++i)
+    {
+        okno.draw(tekst[i]);
+    }
     okno.display();
 }
 
@@ -237,8 +243,16 @@ void Engine::petlaGlowna()
         watki.push_back(std::thread(sterowanie0, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaPozycja.x),&(gracze[0].kopiaPozycja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
     }
 
+    //tekst.push_back(sf::Text());
+    sf::Font arial;
+    arial.loadFromFile("Arial.ttf");
+    //tekst[0].setString("1322312");
+    //tekst[0].setFont(arial);
+    //tekst[0].setColor(sf::Color::White);
+    //tekst[0].setCharacterSize(40);
 
-    int wygrana;
+
+    int wygrana=-1;
     while(dziala)
     {
         //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
@@ -250,11 +264,23 @@ void Engine::petlaGlowna()
             nawierzchnia();
             for (int i=0;i<gracze.size();++i)
                 ustawTrajektorie(i);
-            wygrana=sprawdzWygrana();
-            if (wygrana != -1)
+            if (wygrana == -1)
             {
-                printf("Wygral: %d!!!\n",wygrana);
-                okno.close();
+                wygrana=sprawdzWygrana();
+                if (wygrana != -1)
+                {
+                    //printf("Wygral: %d!!!\n",wygrana);
+                    //dziala=0;
+                    sf::Text tek;
+                    char pom0 [] = "Chwala graczowi 0!";
+                    pom0[16]=wygrana+'0';
+                    tek.setString(pom0);
+                    tek.setFont(arial);
+                    tek.setCharacterSize(90);
+                    tek.setPosition(mapaRGB.size()/2-100,mapaRGB[0].size()/2-100);
+                    tekst.push_back(tek);
+                    //okno.close();
+                }
             }
         }
 
@@ -262,13 +288,25 @@ void Engine::petlaGlowna()
         while (okno.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 okno.close();
+                dziala=0;
+            }
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                    okno.close();
+                    dziala=0;
+                }
+
+            }
         }
         rysujScene();
 
             //;
         //ZewnTrajektoria(gracze[0].V,gracze[0].przyspieszenie,gracze[0].orientacja);
-        dziala=okno.isOpen();
+        //dziala=okno.isOpen();
        // return;
     }
 

@@ -33,6 +33,8 @@ private:
     POBRANE sterowanie2;
     POBRANE sterowanie3;
 
+    std::vector<sf::Text> tekst;
+
     sf::Vector2f meta;
     void znajdzMete();
     int sprawdzWygrana();
