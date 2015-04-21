@@ -379,13 +379,13 @@
 1417741759 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\vector2.hpp
 	<SFML/System/Vector2.inl>
 
-1427747156 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\main.cpp
+1428065654 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\main.cpp
 	"auto.h"
 
-1427747119 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.cpp
+1429656708 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.cpp
 	"auto.h"
 
-1427747156 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.h
+1429205042 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.h
 	<SFML/System.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
@@ -394,8 +394,10 @@
 	<iostream>
 	<cstdlib>
 	<vector>
+	<thread>
 	<stdio.h>
 	"Vector2.hpp"
+	<windows.h>
 
 1427231891 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\vector2.hpp
 	<SFML/System/Vector2.inl>

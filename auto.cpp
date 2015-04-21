@@ -253,6 +253,7 @@ void Engine::petlaGlowna()
 
 
     int wygrana=-1;
+    zegar.restart();
     while(dziala)
     {
         //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
@@ -367,6 +368,14 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].kopiaOrientacja=gracze[nrAuta].orientacja;
     gracze[nrAuta].kopiaPozycja=gracze[nrAuta].pozycja;
     gracze[nrAuta].sterowanie=gracze[nrAuta].kopiaSterowanie;
+    if (gracze[nrAuta].sterowanie.x > 1.0f)
+        gracze[nrAuta].sterowanie.x=1.0f;
+    if (gracze[nrAuta].sterowanie.x < -1.0f)
+        gracze[nrAuta].sterowanie.x=-1.0f;
+    if (gracze[nrAuta].sterowanie.y > 1.0f)
+        gracze[nrAuta].sterowanie.y=1.0f;
+    if (gracze[nrAuta].sterowanie.y < -1.0f)
+        gracze[nrAuta].sterowanie.y=-1.0f;
 /*
     system("cls");
     printf("\n\n\n");
