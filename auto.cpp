@@ -6,15 +6,63 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     //klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
-    mapaT.loadFromFile("mapa.png");
-    mapa.setTexture(mapaT);
+
     sf::View view;
     view.setSize(800,600);
     int iloscGraczy;
     FILE* input;
     float pomKlatka;
+    char buffer0[100];
+    char buffer1[100];
+    char buffer2[100];
+    char buffer3[100];
+    char buffer4[100];
     input=fopen("stale.txt","rt");
     fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d\nKlatka: %f",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy,&pomKlatka);
+    fscanf(input,"%s %s",buffer0,buffer1);
+
+    mapaT.loadFromFile(buffer1);
+    mapa.setTexture(mapaT);
+
+    switch(iloscGraczy)
+    {
+    case 1:
+        fscanf(input,"%s %s",buffer0,buffer1);
+        break;
+    case 2:
+        fscanf(input,"%s %s",buffer0,buffer1);
+        fscanf(input,"%s %s",buffer0,buffer2);
+        break;
+    case 3:
+        fscanf(input,"%s %s",buffer0,buffer1);
+        fscanf(input,"%s %s",buffer0,buffer2);
+        fscanf(input,"%s %s",buffer0,buffer3);
+        break;
+    case 4:
+        fscanf(input,"%s %s",buffer0,buffer1);
+        fscanf(input,"%s %s",buffer0,buffer2);
+        fscanf(input,"%s %s",buffer0,buffer3);
+        fscanf(input,"%s %s",buffer0,buffer4);
+        break;
+    }
+
+    switch (iloscGraczy)
+    {
+    case 4:
+        DLL3= LoadLibrary(buffer4);
+        sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie");
+    case 3:
+        DLL2= LoadLibrary(buffer3);
+        sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie");
+    case 2:
+        DLL1= LoadLibrary(buffer2);
+        sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie");
+    case 1:
+        DLL0= LoadLibrary(buffer1);
+        sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie");
+        break;
+    }
+
     fclose(input);
     wspolTarcieBoczne=-wspolTarcieBoczne;
     klatka=sf::seconds(pomKlatka);
@@ -213,22 +261,7 @@ void Engine::rysujScene()
 void Engine::petlaGlowna()
 {
 
-    switch (gracze.size())
-    {
-    case 4:
-        DLL3= LoadLibrary("4/DLL.dll");
-        sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie");
-    case 3:
-        DLL2= LoadLibrary("3/DLL.dll");
-        sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie");
-    case 2:
-        DLL1= LoadLibrary("2/DLL.dll");
-        sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie");
-    case 1:
-        DLL0= LoadLibrary("1/DLL.dll");
-        sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie");
-        break;
-    }
+
     std::vector<std::thread> watki;
     bool dziala=1;
     switch (gracze.size())
