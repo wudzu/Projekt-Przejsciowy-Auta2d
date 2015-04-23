@@ -1,0 +1,7 @@
+Tarcie: 2.0
+Wysokosc: 0.01
+Tarcie boczne: 1.5
+Predkosc: 13.0
+Sterownosc: 0.1
+Gracze: 3
+Klatka: 0.3
