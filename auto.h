@@ -8,7 +8,6 @@
 #include <vector>
 #include <thread>
 #include <stdio.h>
-#include <string>
 #include "Vector2.hpp"
 #define PI 3.14159265
 #include <windows.h>
@@ -29,7 +28,6 @@ private:
     HINSTANCE DLL0,DLL1,DLL2,DLL3;
     typedef void( * POBRANE )(float*, float*, float*, float*, float*, float*, float*, float*, float*, float*, bool*, std::vector<std::vector<std::vector<unsigned char>>>,float, float);
     void tworzMape();
-    std::string adresDll[4];
     POBRANE sterowanie0;
     POBRANE sterowanie1;
     POBRANE sterowanie2;
