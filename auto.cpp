@@ -6,22 +6,47 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     //klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
-    mapaT.loadFromFile("mapa.png");
-    mapa.setTexture(mapaT);
+    //mapaT.loadFromFile("mapa.png");
+    //mapa.setTexture(mapaT);
     sf::View view;
+    char buffer[100];
     view.setSize(800,600);
     int iloscGraczy;
     FILE* input;
     float pomKlatka;
     input=fopen("stale.txt","rt");
-    fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d\nKlatka: %f",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy,&pomKlatka);
-    fclose(input);
-    wspolTarcieBoczne=-wspolTarcieBoczne;
-    klatka=sf::seconds(pomKlatka);
+    fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d\nKlatka: %f\n",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy,&pomKlatka);
+    std::string adresMapa;
+    fscanf(input, "Mapa: %s\n",buffer);
+    adresMapa=buffer;
     if (iloscGraczy>4)
         iloscGraczy=4;
     if (iloscGraczy<1)
         iloscGraczy=1;
+    switch (iloscGraczy)
+    {
+    case 4:
+        fscanf(input,"DLL4: %s\n",buffer);
+        adresDll[3]=buffer;
+    case 3:
+        fscanf(input,"DLL3: %s\n",buffer);
+        adresDll[2]=buffer;
+    case 2:
+        fscanf(input,"DLL2: %s\n",buffer);
+        adresDll[1]=buffer;
+    case 1:
+        fscanf(input,"DLL1: %s",buffer);
+        adresDll[0]=buffer;
+    }
+
+
+    fclose(input);
+
+    mapaT.loadFromFile(adresMapa);
+    mapa.setTexture(mapaT);
+    wspolTarcieBoczne=-wspolTarcieBoczne;
+    klatka=sf::seconds(pomKlatka);
+
 /*
     wspolTarcia=2;
     wspolWysokosci=0.01f;
@@ -216,16 +241,16 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        DLL3= LoadLibrary("4/DLL.dll");
+        DLL3= LoadLibrary(adresDll[3].c_str());
         sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie");
     case 3:
-        DLL2= LoadLibrary("3/DLL.dll");
+        DLL2= LoadLibrary(adresDll[2].c_str());
         sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie");
     case 2:
-        DLL1= LoadLibrary("2/DLL.dll");
+        DLL1= LoadLibrary(adresDll[1].c_str());
         sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie");
     case 1:
-        DLL0= LoadLibrary("1/DLL.dll");
+        DLL0= LoadLibrary(adresDll[0].c_str());
         sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie");
         break;
     }
