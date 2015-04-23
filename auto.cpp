@@ -6,8 +6,8 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     //klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
-    //mapaT.loadFromFile("mapa.png");
-    //mapa.setTexture(mapaT);
+    mapaT.loadFromFile("mapa.png");
+    mapa.setTexture(mapaT);
     sf::View view;
     char buffer[100];
     view.setSize(800,600);
@@ -16,13 +16,14 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     float pomKlatka;
     input=fopen("stale.txt","rt");
     fscanf(input,"Tarcie: %f\nWysokosc: %f\nTarcie boczne: %f\nPredkosc: %f\nSterownosc: %f\nGracze: %d\nKlatka: %f\n",&wspolTarcia,&wspolWysokosci,&wspolTarcieBoczne,&wspolPredkosci,&wspolSterownosci,&iloscGraczy,&pomKlatka);
-    std::string adresMapa;
-    fscanf(input, "Mapa: %s\n",buffer);
-    adresMapa=buffer;
+
+
+    //adresMapa=buffer;
     if (iloscGraczy>4)
         iloscGraczy=4;
     if (iloscGraczy<1)
         iloscGraczy=1;
+        /*
     switch (iloscGraczy)
     {
     case 4:
@@ -39,11 +40,11 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
         adresDll[0]=buffer;
     }
 
-
+*/
     fclose(input);
 
-    mapaT.loadFromFile(adresMapa);
-    mapa.setTexture(mapaT);
+
+
     wspolTarcieBoczne=-wspolTarcieBoczne;
     klatka=sf::seconds(pomKlatka);
 
@@ -241,16 +242,20 @@ void Engine::petlaGlowna()
     switch (gracze.size())
     {
     case 4:
-        DLL3= LoadLibrary(adresDll[3].c_str());
+        DLL3= LoadLibrary("4\DLL.dll");
+        //DLL3= LoadLibrary(adresDll[3].c_str());
         sterowanie3=(POBRANE) GetProcAddress(DLL3, "sterowanie");
     case 3:
-        DLL2= LoadLibrary(adresDll[2].c_str());
+        DLL2= LoadLibrary("3\DLL.dll");
+        //DLL2= LoadLibrary(adresDll[2].c_str());
         sterowanie2=(POBRANE) GetProcAddress(DLL2, "sterowanie");
     case 2:
-        DLL1= LoadLibrary(adresDll[1].c_str());
+        DLL1= LoadLibrary("2\DLL.dll");
+        //DLL1= LoadLibrary(adresDll[1].c_str());
         sterowanie1=(POBRANE) GetProcAddress(DLL1, "sterowanie");
     case 1:
-        DLL0= LoadLibrary(adresDll[0].c_str());
+        DLL0= LoadLibrary("1\DLL.dll");
+        //DLL0= LoadLibrary(adresDll[0].c_str());
         sterowanie0=(POBRANE) GetProcAddress(DLL0, "sterowanie");
         break;
     }
@@ -278,7 +283,6 @@ void Engine::petlaGlowna()
 
 
     int wygrana=-1;
-    zegar.restart();
     while(dziala)
     {
         //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
@@ -393,14 +397,6 @@ void Engine::ustawTrajektorie(int nrAuta)
     gracze[nrAuta].kopiaOrientacja=gracze[nrAuta].orientacja;
     gracze[nrAuta].kopiaPozycja=gracze[nrAuta].pozycja;
     gracze[nrAuta].sterowanie=gracze[nrAuta].kopiaSterowanie;
-    if (gracze[nrAuta].sterowanie.x > 1.0f)
-        gracze[nrAuta].sterowanie.x=1.0f;
-    if (gracze[nrAuta].sterowanie.x < -1.0f)
-        gracze[nrAuta].sterowanie.x=-1.0f;
-    if (gracze[nrAuta].sterowanie.y > 1.0f)
-        gracze[nrAuta].sterowanie.y=1.0f;
-    if (gracze[nrAuta].sterowanie.y < -1.0f)
-        gracze[nrAuta].sterowanie.y=-1.0f;
 /*
     system("cls");
     printf("\n\n\n");

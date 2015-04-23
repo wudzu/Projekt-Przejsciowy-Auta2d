@@ -382,10 +382,12 @@
 1428065654 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\main.cpp
 	"auto.h"
 
-1429788913 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.cpp
+1427747156 D
+
+1429792305 source:d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.cpp
 	"auto.h"
 
-1429788622 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.h
+1429792328 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\auto.h
 	<SFML/System.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
@@ -396,9 +398,21 @@
 	<vector>
 	<thread>
 	<stdio.h>
-	<string>
 	"Vector2.hpp"
 	<windows.h>
+
+1427747156 ent of 59bccf9... Moje
+	<SFML/System.hpp>
+	<SFML/Graphics.hpp>
+	<SFML/Window.hpp>
+	<math.h>
+	<stdlib.h>
+	<iostream>
+	<cstdlib>
+	<vector>
+	<stdio.h>
+	<string>
+	"Vector2.hpp"
 
 1427231891 d:\projekty\auta2dai\projekt-przejsciowy-auta2d\vector2.hpp
 	<SFML/System/Vector2.inl>

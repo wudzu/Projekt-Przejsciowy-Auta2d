@@ -10,3 +10,7 @@ DLL1: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\1\DLL.dll
 DLL2: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\2\DLL.dll
 DLL3: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\3\DLL.dll
 DLL4: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\4\DLL.dll
+=======
+Gracze: 3
+Klatka: 0.3
+>>>>>>> parent of 59bccf9... Moje
