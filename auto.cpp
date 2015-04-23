@@ -23,6 +23,7 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 
     mapaT.loadFromFile(buffer1);
     mapa.setTexture(mapaT);
+    tworzMape(buffer1);
 
     switch(iloscGraczy)
     {
@@ -77,7 +78,7 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
     wspolPredkosci=20.0f;
     wspolSterownosci=0.2f;
 */
-    tworzMape();
+
     float prop=mapaRGB.size()/800.0f;
     view.setCenter(prop*400,prop*300);
     view.zoom(prop);
@@ -216,10 +217,10 @@ void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
 
 }
 
-void Engine::tworzMape()
+void Engine::tworzMape(char *ma)
 {
     sf::Image ob;
-    ob.loadFromFile("mapa.png");
+    ob.loadFromFile(ma);
     sf::Vector2u a=ob.getSize();
     mapaRGB.clear();
     mapaRGB.resize(a.x);
