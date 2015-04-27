@@ -356,13 +356,13 @@
 	<string>
 	<vector>
 
-1428870818 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\main.cpp
+1430153808 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\main.cpp
 	"auto.h"
 
-1429558154 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.cpp
+1430154383 source:c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.cpp
 	"auto.h"
 
-1429558154 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.h
+1430154604 c:\users\jêdrzej\desktop\projekt przejsciowy\projekt-przejsciowy-auta2d\auto.h
 	<SFML/System.hpp>
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>

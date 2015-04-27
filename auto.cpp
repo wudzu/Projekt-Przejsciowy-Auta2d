@@ -2,8 +2,6 @@
 
 Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
 {
-    idebug=0;
-    //klatka=sf::seconds(0.2f);
     samochod.loadFromFile("auto.png");
     samochod.setSmooth(1);
 
@@ -71,20 +69,11 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
         iloscGraczy=4;
     if (iloscGraczy<1)
         iloscGraczy=1;
-/*
-    wspolTarcia=2;
-    wspolWysokosci=0.01f;
-    wspolTarcieBoczne=-2.0f;
-    wspolPredkosci=20.0f;
-    wspolSterownosci=0.2f;
-*/
 
     float prop=mapaRGB.size()/800.0f;
     view.setCenter(prop*400,prop*300);
     view.zoom(prop);
     okno.setView(view);
-
-
 
     sf::Vector2f start,startOrientacja;
     startOrientacja.x=1;
@@ -103,28 +92,6 @@ Engine::Engine() : okno(sf::VideoMode(800, 600), "Samochodziki")\
         a.obrazek.setColor(kolor[i]);
         gracze.push_back(a);
     }
-
-
-
-    /*
-    tarcie.push_back(0.5f);
-    gracze.push_back(a);
-    gracze[0].statSter=2.9f;
-    gracze[0].przyspieszenie.x=0;
-    gracze[0].przyspieszenie.y=0;
-    gracze[0].orientacja.x=1;
-    gracze[0].orientacja.y=0;
-    gracze[0].V.x=0;
-    gracze[0].V.y=0;
-    gracze[0].pozycja.x=300;
-    gracze[0].pozycja.y=50;
-    gracze[0].statPrzys=1.0f;
-    gracze[0].obrazek.setColor(sf::Color::Red);
-    //gracze[0].sterowanie.y=1.0f;
-    gracze[0].sterowanie.x=1;
-    gracze[0].kopiaSterowanie.y=0.0f;
-    gracze[0].kopiaSterowanie.x=0.0f;
-    */
 
     zegar.restart();
 }
@@ -166,11 +133,6 @@ int Engine::sprawdzWygrana()
     return -1;
 }
 
-void Engine::debuguj()
-{
-    printf("%d\n",idebug++);
-}
-
 void Engine::znajdzStart(sf::Vector2f &start, sf::Vector2f &startOrientacja)
 {
     bool startZnaleziony=0,orientZnaleziony=0;
@@ -199,22 +161,6 @@ void Engine::znajdzStart(sf::Vector2f &start, sf::Vector2f &startOrientacja)
             }
         }
     }
-}
-
-void Engine::testParam(float statMaxpr, float statPrzys, float statSter)
-{
-    float suma;
-    suma=statMaxpr+statPrzys+statSter;
-
-    if(suma>5)
-        Error(0);
-    else
-    {
-        gracze[0].statPrzys=(1+statPrzys/10); //zwiekszac
-        gracze[0].statSter=(1-statSter/10); //zmniejszac
-        gracze[0].statMaxpr=10+statMaxpr; //Generalnie predkosc nie przekracza 15
-    }
-
 }
 
 void Engine::tworzMape(char *ma)
@@ -277,21 +223,14 @@ void Engine::petlaGlowna()
         watki.push_back(std::thread(sterowanie0, &(gracze[0].kopiaV.x),&(gracze[0].kopiaV.y),&(gracze[0].kopiaPrzyspieszenie.x),&(gracze[0].kopiaPrzyspieszenie.y),&(gracze[0].kopiaOrientacja.x),&(gracze[0].kopiaOrientacja.y),&(gracze[0].kopiaPozycja.x),&(gracze[0].kopiaPozycja.y),&(gracze[0].kopiaSterowanie.x),&(gracze[0].kopiaSterowanie.y),&dziala,mapaRGB, (meta.x),(meta.y)));
     }
 
-    //tekst.push_back(sf::Text());
     sf::Font arial;
     arial.loadFromFile("Arial.ttf");
-    //tekst[0].setString("1322312");
-    //tekst[0].setFont(arial);
-    //tekst[0].setColor(sf::Color::White);
-    //tekst[0].setCharacterSize(40);
-
 
     int wygrana=-1;
     zegar.restart();
     while(dziala)
     {
-        //test2(gracze[0].kopiaSterowanie.x, gracze[0].kopiaSterowanie.y);
-       // ster0((gracze[0].kopiaV.x),(gracze[0].kopiaV.y),(gracze[0].kopiaPrzyspieszenie.x),(gracze[0].kopiaPrzyspieszenie.y),(gracze[0].kopiaOrientacja.x),(gracze[0].kopiaOrientacja.y),(gracze[0].kopiaPozycja.x),(gracze[0].kopiaPozycja.y),(gracze[0].kopiaSterowanie.x),(gracze[0].kopiaSterowanie.y),dziala,mapaRGB);
+
         czas+=zegar.restart()*3.0f;
         while (czas>=klatka)
         {
@@ -304,8 +243,6 @@ void Engine::petlaGlowna()
                 wygrana=sprawdzWygrana();
                 if (wygrana != -1)
                 {
-                    //printf("Wygral: %d!!!\n",wygrana);
-                    //dziala=0;
                     sf::Text tek;
                     char pom0 [] = "Chwala graczowi 0!";
                     pom0[16]=wygrana+'0';
@@ -314,7 +251,6 @@ void Engine::petlaGlowna()
                     tek.setCharacterSize(90);
                     tek.setPosition(mapaRGB.size()/2-100,mapaRGB[0].size()/2-100);
                     tekst.push_back(tek);
-                    //okno.close();
                 }
             }
         }
@@ -367,17 +303,6 @@ void Engine::ustawTrajektorie(int nrAuta)
 {
     gracze[nrAuta].V=gracze[nrAuta].V+gracze[nrAuta].przyspieszenie*klatka.asSeconds();
 
-/*
-    if(gracze[nrAuta].tempPredkosc.x>statMaxpr)
-        gracze[nrAuta].tempPredkosc.x=statMaxpr;
-    else if(gracze[nrAuta].tempPredkosc.x<-statMaxpr)
-        gracze[nrAuta].tempPredkosc.x=-statMaxpr;
-
-    if(gracze[0].tempPredkosc.y>statMaxpr)
-        gracze[0].tempPredkosc.y=statMaxpr;
-    else if(gracze[0].tempPredkosc.y<-statMaxpr)
-        gracze[0].tempPredkosc.y=-statMaxpr;
-*/
     gracze[nrAuta].pozycja= gracze[nrAuta].pozycja+gracze[nrAuta].V*klatka.asSeconds()*wspolPredkosci;
 
     temp1=gracze[nrAuta].orientacja*(gracze[nrAuta].orientacja.x*gracze[nrAuta].V.x+gracze[nrAuta].orientacja.y*gracze[nrAuta].V.y);
@@ -410,35 +335,11 @@ void Engine::ustawTrajektorie(int nrAuta)
         gracze[nrAuta].sterowanie.y=1.0f;
     if (gracze[nrAuta].sterowanie.y < -1.0f)
         gracze[nrAuta].sterowanie.y=-1.0f;
-/*
-    system("cls");
-    printf("\n\n\n");
-    printf("V:\t%f\t%f\nOrientacja:\t%f\t%f\n",gracze[nrAuta].V.x,gracze[nrAuta].V.y,gracze[nrAuta].orientacja.x,gracze[nrAuta].orientacja.y);
-    printf("Pozycja:\t%f\t%f\nPrzyspieszenie:\t%f\t%f\n",gracze[nrAuta].pozycja.x,gracze[nrAuta].pozycja.y,gracze[nrAuta].przyspieszenie.x,gracze[nrAuta].przyspieszenie.y);
-*/
-    //printf("%f %f",gracze[nrAuta].orientacja.x, gracze[nrAuta].orientacja.y);
-    //printf("%f\t%f",)
-    //gracze[0].stanWyjscia[0]=gracze[0].tempPozycja;
-    //gracze[0].stanWyjscia[1]=gracze[0].orientacja;
-    //gracze[0].stanWyjscia[2]=gracze[0].tempPrzyspieszenie;
 }
 
 float Engine::sprawdzTarcie(int nrAuta)
 {
     return tarcie[nrAuta];
-}
-
-void Engine::Error(int idbledu)
-{
-    switch(idbledu){
-    case 0:
-        {
-            printf("Zly stosunek parametrów pojazdu.\n");
-            blad=true;
-            break;
-        }
-    }
-
 }
 
 void Engine::nawierzchnia()
@@ -491,14 +392,13 @@ void Engine::nawierzchnia()
         pom0/=4;
         tarcie[i]=pom0/255.0f*wspolTarcia;
     }
-    //ustawia odpowiednie wartosci na wektorze z tarciem
 }
 
-float Engine::qrsqrt(float num) // liczy 1/pierwiastek(num)
+float Engine::qrsqrt(float num)
 {
     qx2= num*0.5f;
     qi=(int*)&num;
-    *qi=0x5f3759df - ( *qi >> 1 );  //magic
+    *qi=0x5f3759df - ( *qi >> 1 );
     num=num*(1.5f - (qx2 * num * num));
     return num;
 }
@@ -598,20 +498,20 @@ sf::Vector2f Engine::sprawdzWysokosc(int nrAuta)
         return gracze[nrAuta].orientacja*(wys[3]+wys[2]-wys[1]-wys[0])+prostopadly*(wys[1]+wys[2]-wys[0]-wys[3]);
 }
 
-Auto::Auto()
-{
 
-}
 
 Auto::Auto(sf::Texture* tekstura, sf::Vector2f pol, sf::Vector2f orient) : obrazek(*tekstura, sf::IntRect(42,25,155,75))
 {
-    //obrazek.setTexture(*tekstura);
-    //obrazek.setTextureRect(sf::IntRect(42,25,155,75));
     obrazek.setOrigin(sf::Vector2f(57,25));
     pozycja=pol;
     orientacja=orient;
     statSter=2.0f;
     statPrzys=1.0f;
+}
+
+Auto::Auto()
+{
+
 }
 
 Auto::~Auto()

@@ -3,10 +3,10 @@ Wysokosc: 0.01
 Tarcie boczne: 1.5
 Predkosc: 13.0
 Sterownosc: 0.1
-Gracze: 4
+Gracze: 1
 Klatka: 0.3
 Mapa: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\mapa.png
-DLL1: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\1\DLL.dll
-DLL2: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\2\DLL.dll
-DLL3: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\3\DLL.dll
-DLL4: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\4\DLL.dll
+DLL1: D:\Projekty\auta2dAI\Projekt-Przejsciowy-Auta2d\DLL3.dll
+DLL2: 
+DLL3: 
+DLL4: 
